@@ -3,7 +3,7 @@ function selectAll(obj) {
     $("input.select-item").each(function (index,item) {item.checked = obj.checked;});
 }
 
-$.getJSON("./../data/users.json", function(data) {
+$.getJSON("app/data/users.json", function(data) {
     for (var i = 0; i < data.length; i++) {
         if(data[i].transactions.length != 0) {
             for (var j = 0; j < data[i].transactions.length; i++) {
