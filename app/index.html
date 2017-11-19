@@ -1,0 +1,104 @@
+<!doctype>
+<html>
+<head>
+    <title>Confirm queries</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+</head>
+<body>
+    <div id="table-block">
+        <table id="datatable-checkbox" role="grid" aria-describedby="datatable-checkbox_info" class="table">
+            <thead>
+                <tr>
+                    <th class="ng-binding"><input id="select-all" type="checkbox" onclick="selectAll(this);"></th>
+                    <th class="ng-binding">Date</th>
+                    <th class="ng-binding">Transaction ID</th>
+                    <th class="ng-binding">Amount (in foreign currency)</th>
+                    <th class="ng-binding">Amount (in ETH)</th>
+                    <th class="ng-binding">Tokens</th>
+                    <th class="ng-binding">Status</th>
+                </tr>
+            </thead>
+            <tbody name="tbody">
+                <!--
+                <tr class="success">
+                    <td class="table-hover"><input class="select-item checkbox" type="checkbox"></td>
+                    <td class="table-hover">18.11.2017</td>
+                    <td class="table-hover"><a href="">0x5c2f...18a2</a></td>
+                    <td class="table-hover">0.12 BTC</td>
+                    <td class="table-hover">100.34 ETH</td>
+                    <td class="table-hover">4567 JTC</td>
+                    <td class="table-hover"><button type="button" class="btn btn-success">Issued</button></td>
+                </tr>
+                <tr class="info">
+                    <td class="table-hover"><input class="select-item checkbox" type="checkbox"></td>
+                    <td class="table-hover">18.11.2017</td>
+                    <td class="table-hover"><a href="">0xfe23...daa3</a></td>
+                    <td class="table-hover">6.83 BTC</td>
+                    <td class="table-hover">1045.43 ETH</td>
+                    <td class="table-hover">56754 JTC</td>
+                    <td class="table-hover"><button type="button" class="btn btn-primary">Pending...</button></td>
+                </tr>
+                <tr class="warning">
+                    <td class="table-hover"><input class="select-item checkbox" type="checkbox"></td>
+                    <td class="table-hover">17.11.2017</td>
+                    <td class="table-hover"><a href="">0x567d...12a4</a></td>
+                    <td class="table-hover">4394 $</td>
+                    <td class="table-hover">13.32 ETH</td>
+                    <td class="table-hover">2323 JTC</td>
+                    <td class="table-hover"><button type="button" class="btn btn-warning">Warning</button></td>
+                </tr>
+                <tr class="info">
+                    <td class="table-hover"><input class="select-item checkbox" type="checkbox"></td>
+                    <td class="table-hover">16.11.2017</td>
+                    <td class="table-hover"><a href="">0x5cf4...1cc2</a></td>
+                    <td class="table-hover">3.02 BTC</td>
+                    <td class="table-hover">57.32 ETH</td>
+                    <td class="table-hover">56765 JTC</td>
+                    <td class="table-hover"><button type="button" class="btn btn-primary">Pending...</button></td>
+                </tr>
+                -->
+            </tbody>
+        </table>
+    </div>
+    
+    <script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- <script src="app/javascripts/readJSON.js"></script> -->
+    <script type="text/javascript">
+        function selectAll(obj) {
+            $("input.select-item").each(function (index,item) {item.checked = obj.checked;});
+        }
+
+        $.getJSON("app/data/users.json", function(data) {
+            for (var i = 0; i < data.length; i++) {
+                if(data[i].transactions.length != 0) {
+                    for (var j = 0; j < data[i].transactions.length; i++) {
+                        buildTR(
+                            data[i].transactions[j].date,
+                            data[i].transactions[j].url,
+                            data[i].transactions[j].tx
+                        );
+                    }
+                }
+            }
+        });
+
+        function buildTR(date, url, tx, amount, currency, currencyIndex, tokens) {
+        $("[name=tbody]").html($("[name=tbody]").html() + '<tr class="info">' +
+                '<td class="table-hover"><input class="select-item checkbox" type="checkbox"></td>' +
+                '<td class="table-hover">'+date+'</td>' +
+                '<td class="table-hover"><a href="'+url+'">'+tx+'</a></td>' +
+                '<td class="table-hover">0.12 BTC</td>' +
+                '<td class="table-hover">100.34 ETH</td>' +
+                '<td class="table-hover">4567 JTC</td>' +
+                '<td class="table-hover"><button type="button" class="btn btn-success">Issued</button></td>' +
+            '</tr>');
+        }
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>
