@@ -1,18 +1,22 @@
-alert("include");
 function selectAll(obj) {
     $("input.select-default").each(function (index,item) {item.checked = obj.checked;});
 }
+
 function sendSelected() {
+    var userArray = [];
     $("tr").each(function () {
-       if($(this).find("input")[0].checked) {
-            var userStruct = [$(this).find("td.table-tx").text(),
-                              $(this).find("td.table-currency").text(),
-                              $(this).find("td.table-eth").text(),
-                              $(this).find("td.table-tokens").text()];
-            console.log(userStruct);
-            return userStruct;
-       }
+        if($(this).find("input").length != 0) {
+            if($(this).find("input")[0].checked) {
+            var user = [$(this).find("td.table-tx").text(),
+                        $(this).find("td.table-currency").text(),
+                        $(this).find("td.table-eth").text(),
+                        $(this).find("td.table-tokens").text()];
+            userArray.push(user);
+            }
+        }
     });
+    console.log(userArray);
+    return userArray;
 }
 
 $.getJSON("app/data/users.json", function(data) {
