@@ -13,7 +13,7 @@ var JobeumPresale = contract(jobeumpresale_artifacts);
 * Global variables
 */
 
-var send_address = '' // from what account confirm transactions
+var send_address = web3.eth.accounts[0]; // from what account confirm transactions
 
 /**
 * Get number of tokens for transaction id
@@ -195,7 +195,7 @@ $(document).ready(function() {
         console.log(tokens_amount);
     }, 1000);
 
-    // user => (TxId, currency = {'btc', 'ltc', 'zec', 'dash', 'waves'}, [address] | [transactions][ethAddress], web3.toWei(Amount in ETH (without ETH)), db_amount = web3.toWei(Tokens (without JTC)))
+    // user => (TxId, currency = {'btc', 'ltc', 'zec', 'dash', 'waves'}, [address] | [transactions][ethAddress] != '', web3.toWei(Amount in ETH (without ETH)), db_amount = web3.toWei(Tokens (without JTC)))
 
 
 });
