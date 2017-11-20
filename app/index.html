@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
 <body>
-    <div id="table-block">
+    <div class="table-block">
         <table id="datatable-checkbox" role="grid" aria-describedby="datatable-checkbox_info" class="table">
             <thead>
                 <tr>
@@ -24,17 +24,33 @@
             <tbody name="tbody"></tbody>
         </table>
     </div>
+    <center><button type="button" class="btn btn-success" onclick="sendSelected();">Submit</button></center>
     
     <script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- <script src="app/javascripts/readJSON.js"></script> -->
-    <script type="text/javascript">
+    <script>
+        function selectAll(obj) {
+            $("input.select-default").each(function (index,item) {item.checked = obj.checked;});
+        }
+        function sendSelected() {
+            for(var i = 0; i < document.getElementsByName("tbody").length; i++) {
+                console.log(document.getElementsByName("tbody")[i].getElementsByClassName("td.input.checkbox").checked);
+                if(document.getElementsByName("tbody")[i].getElementsByClassName("td.input.checkbox").checked) console.log("dd");
+            }
+            
+        }
+        
         $.getJSON("app/data/users.json", function(data) {
             for (var i = 0; i < data.length; i++) {
                 if(data[i].transactions.length != 0) {
                     for (var j = 0; j < data[i].transactions.length; i++) {
                         if(data[i].transactions[j].currency != "eth") {
+                            var status = "";
+                            switch(data[i].transactions[j].status) {
+                                case "new": status = "default"; break;
+                                default:    status = "success"; break;
+                            }
                             buildTR(
                                 data[i].transactions[j].date,
                                 data[i].transactions[j].url,
@@ -42,7 +58,8 @@
                                 data[i].transactions[j].amount,
                                 data[i].transactions[j].currency,
                                 data[i].transactions[j].rateToEth,
-                                data[i].transactions[j].tokens
+                                data[i].transactions[j].tokens,
+                                status
                             );
                         }
                     }
@@ -50,15 +67,15 @@
             }
         });
         
-        function buildTR(date, url, tx, amount, currency, rateToEth, tokens) {
-        $("[name=tbody]").html($("[name=tbody]").html() + '<tr class="info">' +
-                '<td class="table-hover"><input class="select-item checkbox" type="checkbox"></td>' +
+        function buildTR(date, url, tx, amount, currency, rateToEth, tokens, status) {
+        $("[name=tbody]").html($("[name=tbody]").html() + '<tr class="tr '+status+'">' +
+                '<td class="table-hover"><input class="select-item select-'+status+' checkbox" type="checkbox"></td>' +
                 '<td class="table-hover">'+date+'</td>' +
                 '<td class="table-hover"><a href="'+url+'">'+tx+'</a></td>' +
                 '<td class="table-hover">'+amount+' '+currency+'</td>' +
                 '<td class="table-hover">'+amount*rateToEth+' ETH</td>' +
                 '<td class="table-hover">'+tokens+' JTC</td>' +
-                '<td class="table-hover"><button type="button" class="btn btn-success">Issued</button></td>' +
+                '<td class="table-hover"><button type="button" class="btn btn-'+status+'">'+status+'</button></td>' +
             '</tr>');
         }
     </script>

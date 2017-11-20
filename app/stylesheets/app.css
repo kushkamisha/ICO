@@ -1,4 +1,6 @@
-#table-block {
+.table-block {
     width: 98vw;
     margin: 1vw;
+    height: 90vh;
+    overflow-y: scroll;
 }
